@@ -1,7 +1,7 @@
 const express = require('express');
 const user = express.Router();
 const { findAllStudents,
-  findStudentById, findAllTutors, updateUser, deleteUser } = require('../queries/users');
+  findStudentById, findAllTutors, findTutorById, updateUser, deleteUser } = require('../queries/users');
 const { authenticateToken } = require('../middlewares/authenticateToken');
 
 // in front end map through not sure what the key is but tutors (so students can see all the tutotrs)
@@ -10,6 +10,23 @@ const { authenticateToken } = require('../middlewares/authenticateToken');
 user.get('/tutors', async (req, res) => {
   const tutors = await  findAllTutors();
   if (tutors[0]) res.json({ tutors });
+});
+
+user.get('/tutors/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const tutor = await findTutorById(id);
+
+    if (tutor) {
+      res.status(200).json({ tutor });
+    } else {
+      res.status(404).json({ message: 'Tutor not found' });
+    }
+  } catch (error) {
+    console.error('Error finding tutor by id:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
 });
 
 user.get('/students', async (req, res) => {
