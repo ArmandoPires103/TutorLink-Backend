@@ -21,7 +21,7 @@ const db = require("../db/dbConfig");
 const findAllTutors = async () => {
   try {
     const query =
-      "SELECT id, profile_pic, name, subject, is_remote FROM users WHERE is_Tutor = TRUE;";
+      "SELECT id, profile_pic, name, subject, description, is_remote FROM users WHERE is_Tutor = TRUE;";
     const tutors = await db.any(query);
     return tutors;
   } catch (error) {
@@ -30,6 +30,7 @@ const findAllTutors = async () => {
   }
 };
 
+// not sure if needed
 const findUserByUsername = async (username) => {
   try {
     const query = "SELECT * FROM users WHERE username = $1";

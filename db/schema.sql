@@ -21,6 +21,7 @@ CREATE TABLE users (
     is_enrolled BOOLEAN,
     is_booked BOOLEAN,
     subject VARCHAR(255),
+    description VARCHAR(255),
     is_remote BOOLEAN
 );
 
