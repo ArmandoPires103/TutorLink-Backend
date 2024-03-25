@@ -43,18 +43,18 @@ const findAllStudents = async () => {
 };
 
 // not sure if we need
-// const findTutorById = async (id) => {
-//   try {
-//     const query = "SELECT id, name, email, subject, is_enrolled FROM users WHERE is_tutor = TRUE AND id = $1";
+const findTutorById = async (id) => {
+  try {
+    const query = "SELECT id, name, email, subject, is_enrolled FROM users WHERE is_tutor = TRUE AND id = $1";
 
-//     const user = await db.oneOrNone(query, id);
+    const user = await db.oneOrNone(query, id);
 
-//     return user;
-//   } catch (error) {
-//     console.error("Error finding user by username:", error);
-//     throw error;
-//   }
-// };
+    return user;
+  } catch (error) {
+    console.error("Error finding user by username:", error);
+    throw error;
+  }
+};
 
 const findStudentById = async (id) => {
   try {
@@ -134,6 +134,7 @@ const deleteUser = async (username) => {
 
 module.exports = {
   findAllTutors,
+  findTutorById,
   findAllStudents,
   findStudentById,
   createUser,
