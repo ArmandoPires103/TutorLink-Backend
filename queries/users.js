@@ -45,7 +45,8 @@ const findAllStudents = async () => {
 // not sure if we need
 const findTutorById = async (id) => {
   try {
-    const query = "SELECT id, name, email, subject, description, is_enrolled FROM users WHERE is_tutor = TRUE AND id = $1";
+    const query =
+      "SELECT id, name, email, subject, description, is_enrolled, profile_pic FROM users WHERE is_tutor = TRUE AND id = $1";
 
     const user = await db.oneOrNone(query, id);
 
@@ -58,7 +59,8 @@ const findTutorById = async (id) => {
 
 const findStudentById = async (id) => {
   try {
-    const query = "SELECT id, name, email, subject, is_enrolled FROM users WHERE is_tutor = FALSE AND id = $1";
+    const query =
+      "SELECT id, name, email, subject, is_enrolled FROM users WHERE is_tutor = FALSE AND id = $1";
 
     const user = await db.oneOrNone(query, id);
 
@@ -105,14 +107,14 @@ const createUser = async ({ username, password_hash, email, is_tutor }) => {
 // important!!!! Used for login!!! DO NOT CHANGE!
 const findUserByUsername = async (username) => {
   try {
-    const query = 'SELECT * FROM users WHERE username = $1'
-    const user = await db.oneOrNone(query, username)
-    return user
+    const query = "SELECT * FROM users WHERE username = $1";
+    const user = await db.oneOrNone(query, username);
+    return user;
   } catch (error) {
-    console.error('Error finding user by username:', error)
-    throw error
+    console.error("Error finding user by username:", error);
+    throw error;
   }
-}
+};
 // Edit
 const updateUser = async ({ id, username, password_hash, email, is_tutor }) => {
   const query = `
