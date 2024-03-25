@@ -21,7 +21,7 @@ const db = require("../db/dbConfig");
 const findAllTutors = async () => {
   try {
     const query =
-      "SELECT id, profile_pic, name, subject, description, is_remote FROM users WHERE is_Tutor = TRUE;";
+      "SELECT id, profile_pic, name, subject, is_remote FROM users WHERE is_Tutor = TRUE;";
     const tutors = await db.any(query);
     return tutors;
   } catch (error) {
@@ -30,12 +30,23 @@ const findAllTutors = async () => {
   }
 };
 
-// not sure if needed
-const findUserByUsername = async (username) => {
+const findAllStudents = async () => {
   try {
-    const query = "SELECT * FROM users WHERE username = $1";
+    const query =
+      "SELECT id, name, email, subject, is_enrolled FROM users WHERE is_Tutor = FALSE;";
+    const tutors = await db.any(query);
+    return tutors;
+  } catch (error) {
+    console.error("Error finding tutors:", error);
+    throw error;
+  }
+};
 
-    const user = await db.oneOrNone(query, username);
+const findStudentById = async (id) => {
+  try {
+    const query = "SELECT id, name, email, subject, is_enrolled FROM users WHERE is_tutor = FALSE AND id = $1";
+
+    const user = await db.oneOrNone(query, id);
 
     return user;
   } catch (error) {
@@ -109,7 +120,8 @@ const deleteUser = async (username) => {
 
 module.exports = {
   findAllTutors,
-  findUserByUsername,
+  findAllStudents,
+  findStudentById,
   createUser,
   deleteUser,
   updateUser,

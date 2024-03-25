@@ -1,6 +1,7 @@
 const express = require('express');
 const user = express.Router();
-const { findUserByUsername, findAllTutors, updateUser, deleteUser } = require('../queries/users');
+const { findAllStudents,
+  findStudentById, findAllTutors, updateUser, deleteUser } = require('../queries/users');
 const { authenticateToken } = require('../middlewares/authenticateToken');
 
 // in front end map through not sure what the key is but tutors (so students can see all the tutotrs)
@@ -11,28 +12,25 @@ user.get('/', async (req, res) => {
   if (tutors[0]) res.json({ tutors });
 });
 
-// user.get('/', authenticateToken, async (req, res) => {
-//   const tutor = await findAllTutors();
-//   if (tutor[0]) res.json({ tutor });
-// })
+user.get('/students', async (req, res) => {
+  const student = await findAllStudents();
+  if (student[0]) res.json({ student });
+})
 
-// probably security risk lol because you can see the password hashes, but route works. Not sure if we need this for the app. Maybe we can modify fx to see just the usernames without all the data so instead of user object just user.username should suffice
 
-// used for student reviews
-// modify to make specific for student tho - it is currentyl all users
-user.get('/:username', authenticateToken, async (req, res) => {
+user.get('/students/:id', async (req, res) => {
   try {
-    const { username } = req.params;
+    const { id } = req.params;
 
-    const user = await findUserByUsername(username);
+    const student = await findStudentById(id);
 
-    if (user) {
-      res.status(200).json({ username: user.username });
+    if (student) {
+      res.status(200).json({ student });
     } else {
-      res.status(404).json({ message: 'User not found' });
+      res.status(404).json({ message: 'Student not found' });
     }
   } catch (error) {
-    console.error('Error finding user by username:', error);
+    console.error('Error finding student by id:', error);
     res.status(500).json({ message: 'Internal server error' });
   }
 });
