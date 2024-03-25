@@ -1,4 +1,4 @@
-const db = require('../db/dbConfig')
+const db = require("../db/dbConfig");
 
 /**
  * Finds a user by their username.
@@ -20,28 +20,28 @@ const db = require('../db/dbConfig')
 
 const findAllTutors = async () => {
   try {
-    const query = 'SELECT profile_pic, name, subject, is_remote FROM users WHERE is_Tutor = TRUE;';
+    const query =
+      "SELECT id, profile_pic, name, subject, is_remote FROM users WHERE is_Tutor = TRUE;";
     const tutors = await db.any(query);
     return tutors;
   } catch (error) {
-    console.error('Error finding tutors:', error);
+    console.error("Error finding tutors:", error);
     throw error;
   }
 };
 
-
 const findUserByUsername = async (username) => {
   try {
-    const query = 'SELECT * FROM users WHERE username = $1'
+    const query = "SELECT * FROM users WHERE username = $1";
 
-    const user = await db.oneOrNone(query, username)
+    const user = await db.oneOrNone(query, username);
 
-    return user
+    return user;
   } catch (error) {
-    console.error('Error finding user by username:', error)
-    throw error
+    console.error("Error finding user by username:", error);
+    throw error;
   }
-}
+};
 
 // probably need to add is_tutor (to frontend as well)
 // ---- original kept for reference ----
@@ -49,7 +49,7 @@ const findUserByUsername = async (username) => {
 //   const query = `
 //       INSERT INTO users (username, password_hash, email)
 //       VALUES ($1, $2, $3 )
-//       RETURNING id, username, email; 
+//       RETURNING id, username, email;
 //     `
 //   const newUser = await db.one(query, [username, password_hash, email])
 //   return newUser
@@ -63,10 +63,15 @@ const createUser = async ({ username, password_hash, email, is_tutor }) => {
       VALUES ($1, $2, $3, $4)
       RETURNING id, username, email, is_tutor; 
     `;
-    const newUser = await db.one(query, [username, password_hash, email, is_tutor]);
+    const newUser = await db.one(query, [
+      username,
+      password_hash,
+      email,
+      is_tutor,
+    ]);
     return newUser;
   } catch (error) {
-    console.error('Error creating user:', error);
+    console.error("Error creating user:", error);
     throw error; // Rethrow the error to be handled at a higher level
   }
 };
@@ -79,28 +84,32 @@ const updateUser = async ({ id, username, password_hash, email, is_tutor }) => {
     WHERE id = $5
     RETURNING id, username, email, is_tutor; 
   `;
-  const updatedUser = await db.one(query, [username, password_hash, email, is_tutor, id]);
+  const updatedUser = await db.one(query, [
+    username,
+    password_hash,
+    email,
+    is_tutor,
+    id,
+  ]);
   return updatedUser;
 };
 
 // Delete
 const deleteUser = async (username) => {
   try {
-    const query = 'DELETE FROM users WHERE username = $1';
+    const query = "DELETE FROM users WHERE username = $1";
     const deletedUser = await db.oneOrNone(query, username);
     return deletedUser;
   } catch (error) {
-    console.error('Error finding user by username:', error);
+    console.error("Error finding user by username:", error);
     throw error;
   }
 };
-
-
 
 module.exports = {
   findAllTutors,
   findUserByUsername,
   createUser,
   deleteUser,
-  updateUser
-}
+  updateUser,
+};
