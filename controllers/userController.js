@@ -7,7 +7,7 @@ const { authenticateToken } = require('../middlewares/authenticateToken');
 // in front end map through not sure what the key is but tutors (so students can see all the tutotrs)
 // removed authenticate token
 // post for logging in is in auth
-user.get('/', async (req, res) => {
+user.get('/tutors', async (req, res) => {
   const tutors = await  findAllTutors();
   if (tutors[0]) res.json({ tutors });
 });
