@@ -102,6 +102,17 @@ const createUser = async ({ username, password_hash, email, is_tutor }) => {
   }
 };
 
+// important!!!! Used for login!!! DO NOT CHANGE!
+const findUserByUsername = async (username) => {
+  try {
+    const query = 'SELECT * FROM users WHERE username = $1'
+    const user = await db.oneOrNone(query, username)
+    return user
+  } catch (error) {
+    console.error('Error finding user by username:', error)
+    throw error
+  }
+}
 // Edit
 const updateUser = async ({ id, username, password_hash, email, is_tutor }) => {
   const query = `
@@ -134,6 +145,7 @@ const deleteUser = async (username) => {
 
 module.exports = {
   findAllTutors,
+  findUserByUsername,
   findTutorById,
   findAllStudents,
   findStudentById,

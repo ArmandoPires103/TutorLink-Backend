@@ -1,13 +1,13 @@
 const express = require('express');
 const user = express.Router();
-const { findAllStudents,
+const { findAllStudents, findUserByUsername,
   findStudentById, findAllTutors, findTutorById, updateUser, deleteUser } = require('../queries/users');
 const { authenticateToken } = require('../middlewares/authenticateToken');
 
 // in front end map through not sure what the key is but tutors (so students can see all the tutotrs)
 // removed authenticate token
 // post for logging in is in auth
-user.get('/tutors', async (req, res) => {
+user.get('/', async (req, res) => {
   const tutors = await  findAllTutors();
   if (tutors[0]) res.json({ tutors });
 });
@@ -53,6 +53,21 @@ user.get('/students/:id', async (req, res) => {
   }
 });
 
+user.get('/:username', async (req, res) => {
+  try {
+    const { username } = req.params;
+    const user = await findUserByUsername(username);
+    if (user) {
+      res.status(200).json({ username: user.username });
+    } else {
+      res.status(404).json({ message: 'User not found' });
+    }
+  } catch (error) {
+    console.error('Error finding user by username:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
 // create
 user.post('/', authenticateToken, async (req, res) => {
   try {
@@ -89,7 +104,7 @@ user.put('/:username', authenticateToken, async (req, res) => {
 
 user.delete("/:id", authenticateToken, async (req, res) => {
   try {
-    const { username } = req.params;
+    const { id } = req.params; // changed to id
 
     const deletedUser = await deleteUser(id);
     if (deletedUser) {
