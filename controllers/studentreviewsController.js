@@ -1,6 +1,6 @@
 const express = require('express');
 const studentReviews = express.Router();
-const { showStudentReviews, showStudentReview } =require("../queries/studentreviews");
+const { showStudentReviews, showStudentReview, createStudentReview } =require("../queries/studentreviews");
 
 // Define route handler for /api/reviews
 // added get all reviews (to showcase / promote how awesome our tutors are)
@@ -24,4 +24,14 @@ studentReviews.get('/:id', async (req, res) => {
     }
 });
 
+// Route to create a new student review
+studentReviews.post('/', async (req, res) => {
+    try {
+        const { studentId, tutorId, rating, comment } = req.body;
+        const newReview = await createStudentReview(studentId, tutorId, rating, comment);
+        res.status(201).json(newReview);
+    } catch (error) {
+        res.status(500).json({ error: "Failed to create review" });
+    }
+});
 module.exports = studentReviews;
