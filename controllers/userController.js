@@ -29,12 +29,13 @@ user.get('/tutors/:id', async (req, res) => {
   }
 });
 
+// not needed!! because we don't need to display all the students, just all the tutors
 user.get('/students', async (req, res) => {
   const student = await findAllStudents();
   if (student[0]) res.json({ student });
 })
 
-
+// for student profile
 user.get('/students/:id', async (req, res) => {
   try {
     const { id } = req.params;
