@@ -21,7 +21,7 @@ const db = require("../db/dbConfig");
 const findAllTutors = async () => {
   try {
     const query =
-      "SELECT id, profile_pic, name, subject, is_remote FROM users WHERE is_Tutor = TRUE;";
+      "SELECT id, profile_pic, name, subject, description, is_remote FROM users WHERE is_Tutor = TRUE;";
     const tutors = await db.any(query);
     return tutors;
   } catch (error) {
@@ -45,7 +45,7 @@ const findAllStudents = async () => {
 // not sure if we need
 const findTutorById = async (id) => {
   try {
-    const query = "SELECT id, name, email, subject, is_enrolled FROM users WHERE is_tutor = TRUE AND id = $1";
+    const query = "SELECT id, name, email, subject, description, is_enrolled FROM users WHERE is_tutor = TRUE AND id = $1";
 
     const user = await db.oneOrNone(query, id);
 
