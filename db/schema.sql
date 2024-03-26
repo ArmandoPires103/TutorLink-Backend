@@ -6,7 +6,7 @@ CREATE DATABASE authdb;
 
 \c authdb;
 
--- DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS users CASCADE;
 
 CREATE TABLE users (
     id SERIAL PRIMARY KEY,
@@ -25,6 +25,7 @@ CREATE TABLE users (
     is_remote BOOLEAN
 );
 
+DROP TABLE IF EXISTS requests CASCADE;
 CREATE TABLE requests (
   id SERIAL PRIMARY KEY,
   user_id INTEGER,
@@ -35,6 +36,7 @@ CREATE TABLE requests (
   FOREIGN KEY (tutor_id) REFERENCES users(id)
 );
 
+DROP TABLE IF EXISTS student_reviews CASCADE;
 CREATE TABLE student_reviews (
   id SERIAL PRIMARY KEY,
   tutor_id INTEGER REFERENCES users(id),
