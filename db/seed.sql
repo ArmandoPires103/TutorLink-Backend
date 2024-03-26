@@ -31,7 +31,7 @@ VALUES
     (FALSE, 'student3.jpg', 'student3', '$2b$10$nZ4/GQomk6CNPXz00tODu.0YycaOxNcEVaAeCiHoeosjbXk/S0iua', 'student2@example.com', 'Emma Wilson', TRUE, FALSE, 'Chemistry', NULL, TRUE)
 ;
 
-
+-- USER ID IS STUDENT ID
 -- Inserting a request where the tutor accepts
 INSERT INTO requests (user_id, tutor_id, accepted, created_at) 
 VALUES 
@@ -41,7 +41,7 @@ VALUES
 ;
 
 -- Inserting a review for a student
-INSERT INTO student_reviews (assigned_tutor_id, subject, description, user_id, ratings) 
+INSERT INTO student_reviews (tutor_id, subject, description, user_id, ratings) 
 VALUES (1, 'Mathematics', 'Great tutor, very helpful with calculus problems.', 4, 5),
 (2, 'Physics', 'Great tutor, very helpful with inertia problems.', 5, 5),
 (3, 'Chemistry', 'Great tutor, very helpful with stoichiometry problems.', 6, 5)
