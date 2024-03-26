@@ -37,7 +37,7 @@ CREATE TABLE requests (
 
 CREATE TABLE student_reviews (
   id SERIAL PRIMARY KEY,
-  assigned_tutor_id INTEGER REFERENCES users(id),
+  tutor_id INTEGER REFERENCES users(id),
   subject VARCHAR(255),
   description VARCHAR(255),
   user_id INTEGER REFERENCES users(id),
