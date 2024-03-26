@@ -10,31 +10,16 @@ const {
   deleteUser,
 } = require("../queries/users");
 const { authenticateToken } = require("../middlewares/authenticateToken");
-const { showStudentReviewBasedOnTutor } = require("../queries/studentreviews");
+const { showStudentReviewBasedOnTutor, createStudentReview, updateStudentReview, deleteStudentReview } = require("../queries/studentreviews");
 
-// in front end map through not sure what the key is but tutors (so students can see all the tutotrs)
-// removed authenticate token
-// post for logging in is in auth
+// --- Users: Tutors ---
+// show all tutors
 user.get("/tutors", async (req, res) => {
   const tutors = await findAllTutors();
   if (tutors[0]) res.json({ tutors });
 });
 
-user.get("/tutors/:tutor_id/reviews", async (req, res) => {
-  try {
-    const { tutor_id } = req.params;
-    const tutorReviews = await showStudentReviewBasedOnTutor(tutor_id);
-    res.json({ tutorReviews: tutorReviews });
-  } catch (error) {
-    return `route error: ${error}`;
-  }
-});
-
-// post for tutor reviews by students
-// user.post("/tutors/:tutor_id/reviews", async (req, res) => {
-// // add create student review
-// });
-
+// show one tutor
 user.get("/tutors/:id", async (req, res) => {
   try {
     const { id } = req.params;
@@ -52,13 +37,15 @@ user.get("/tutors/:id", async (req, res) => {
   }
 });
 
-// not needed!! because we don't need to display all the students, just all the tutors
+// --- Users: Students ---
+// Show all students
+// not sure if needed!! because we don't need to display all the students, just all the tutors?
 user.get("/students", async (req, res) => {
   const student = await findAllStudents();
   if (student[0]) res.json({ student });
 });
 
-// for student profile
+// Show One Student for student profile
 user.get("/students/:id", async (req, res) => {
   try {
     const { id } = req.params;
@@ -76,6 +63,55 @@ user.get("/students/:id", async (req, res) => {
   }
 });
 
+// --- Tutor REVIEW made by students Routes (one student can make many reviews for each tutor)
+
+// show all reviews for one tutor
+user.get("/tutors/:tutor_id/reviews", async (req, res) => {
+  try {
+    const { tutor_id } = req.params;
+    const tutorReviews = await showStudentReviewBasedOnTutor(tutor_id);
+    res.json({ tutorReviews: tutorReviews });
+  } catch (error) {
+    return `route error: ${error}`;
+  }
+});
+
+// create review as a student for selected tutor
+user.post("/tutors/:tutor_id/reviews", async (req, res) => {
+  const { tutor_id } = req.params;
+  try {
+    const tutorReview = await createStudentReview(...[req.body], tutor_id);
+    res.json({ tutorReview: tutorReview });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// edit review as a student for selected tutor
+user.put("/tutors/:tutor_id/reviews/:id", async (req, res) => {
+  const { tutor_id, id } = req.params;
+  try {
+    const updatedTutorReview = await updateStudentReview(id, ...[req.body], tutor_id);
+    res.json({ tutorReview: updatedTutorReview });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// delete review as a student for selected tutor
+user.delete("/tutors/:tutor_id/reviews/:id", async (req, res) => {
+  const { tutor_id, id } = req.params;
+  try {
+    await deleteStudentReview(id, tutor_id);
+    res.json({ message: "Review deleted successfully" });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// --- Login stuff ---
+
+// needed for login
 user.get("/:username", async (req, res) => {
   try {
     const { username } = req.params;
