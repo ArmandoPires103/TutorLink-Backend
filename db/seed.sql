@@ -37,7 +37,7 @@ INSERT INTO requests (user_id, tutor_id, accepted, created_at)
 VALUES 
     (4, 1, TRUE, NOW()),
     (5, 2, TRUE, NOW()),
-    (6, 3, TRUE, NOW())
+    (6, 3, TRUE, NOW()),
 ;
 
 -- Inserting a review for a student
