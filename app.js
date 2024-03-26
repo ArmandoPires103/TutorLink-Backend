@@ -6,7 +6,7 @@ const cookieParser = require('cookie-parser')
 const userController = require('./controllers/userController')
 const authController = require('./controllers/authController')
 const requestsRouter = require("./controllers/requestsController")
-const studentReviews = require("./controllers/studentreviewsController")
+// const studentReviews = require("./controllers/studentreviewsController")
 
 // CONFIGURATION
 const app = express()
@@ -33,7 +33,7 @@ app.use((req, res, next) => {
 app.use('/api/users', userController)
 app.use('/api/auth', authController)
 app.use('/api/requests', requestsRouter )
-app.use('/api/reviews', studentReviews)
+// app.use('/api/reviews', studentReviews)
 
 // IMPORT REQUESTS AND REVIEWS
 // ROUTES

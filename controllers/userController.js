@@ -30,6 +30,11 @@ user.get("/tutors/:tutor_id/reviews", async (req, res) => {
   }
 });
 
+// post for tutor reviews by students
+// user.post("/tutors/:tutor_id/reviews", async (req, res) => {
+// // add create student review
+// });
+
 user.get("/tutors/:id", async (req, res) => {
   try {
     const { id } = req.params;
@@ -86,7 +91,7 @@ user.get("/:username", async (req, res) => {
   }
 });
 
-// create
+// to login
 user.post("/", authenticateToken, async (req, res) => {
   try {
     const { username, password, email, is_tutor } = req.body;
