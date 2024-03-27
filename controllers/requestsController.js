@@ -7,8 +7,13 @@ const { getRequestsById } = require("../queries/requests");
 requestsRouter.get('/:id', async (req, res) => {
   const { id } = req.params;
 
-  const requests = await getRequestsById(id);
-  res.json(requests);
+  try {
+    const requests = await getRequestsById(id);
+    res.json(requests);
+  } catch (error) {
+    console.error('Error fetching requests:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
 });
 
 
