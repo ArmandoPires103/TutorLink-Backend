@@ -105,6 +105,7 @@ auth.get('/check-auth', authenticateToken, (req, res) => {
         id: req.user.id,
         username: req.user.username,
         email: req.user.email,
+        subject: req.user.subject,
         // Include other user details you want to send back to the client
       },
     })
