@@ -76,10 +76,22 @@ const deleteStudentReview = async (reviewId) => {
   }
 };
 
+const reviewBasedOnId = async (tutor_id, id) => {
+  try {
+    const query = await db.oneOrNone(
+      `SELECT student_reviews.*, users.name AS tutor_name FROM student_reviews JOIN users ON student_reviews.tutor_id = users.id WHERE student_reviews.tutor_id=$1 AND student_reviews.id=$2`,
+      [tutor_id, id]
+    );
+    return query;
+  } catch (error) {
+    return `trial error: ${error}`;
+  }
+};
 
 module.exports = {
   createStudentReview,
   showStudentReviewBasedOnTutor,
   updateStudentReview,
-  deleteStudentReview
+  deleteStudentReview,
+  reviewBasedOnId,
 };
