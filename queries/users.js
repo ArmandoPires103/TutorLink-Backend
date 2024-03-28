@@ -59,15 +59,15 @@ const findStudentById = async (id) => {
   }
 };
 
-const createUser = async ({ profile_pic, name, username, password_hash, email, is_tutor, is_remote, subject, is_enrolled, is_booked }) => {
+const createUser = async ({ profile_pic, name, username, password_hash, email, is_tutor, is_remote, subject, is_enrolled, is_booked, description }) => {
   try {
     const query = `
-      INSERT INTO users (profile_pic, name, username, password_hash, email, is_tutor, is_remote, subject, is_enrolled, is_booked)
-      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
-      RETURNING id, profile_pic, name, username, password_hash, email, is_tutor, is_remote, subject, is_enrolled, is_booked; 
+      INSERT INTO users (profile_pic, name, username, password_hash, email, is_tutor, is_remote, subject, description, is_enrolled, is_booked)
+      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
+      RETURNING id, profile_pic, name, username, password_hash, email, is_tutor, is_remote, subject, description, is_enrolled, is_booked; 
     `;
     const newUser = await db.one(query, [
-      profile_pic, name, username, password_hash, email, is_tutor, is_remote, subject, is_enrolled, is_booked
+      profile_pic, name, username, password_hash, email, is_tutor, is_remote, subject, description,is_enrolled, is_booked
     ]);
     return newUser;
   } catch (error) {
