@@ -1,14 +1,11 @@
 const express = require('express')
 const bcrypt = require('bcrypt')
 const { generateToken } = require('../utils/token')
-const { findAllUsers, findUserByUsername, createUser } = require('../queries/users')
+const { findUserByUsername, createUser } = require('../queries/users')
 const { authenticateToken } = require('../middlewares/authenticateToken')
 const auth = express.Router();
 
 // Login route
-
-
-
 auth.post('/login', async (req, res) => {
   const { username, password } = req.body
 
@@ -48,13 +45,7 @@ auth.post('/login', async (req, res) => {
   }
 })
 
-
 // Register routes
-auth.get("/register", async (req, res) => {
-  const tutors = await findAllUsers();
-  if (tutors[0]) res.json({ tutors });
-});
-
 auth.post('/register', async (req, res) => {
   const { profile_pic, name, username, password, email, is_tutor, is_remote, subject, is_enrolled, is_booked } = req.body
   try {

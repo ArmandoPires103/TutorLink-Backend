@@ -5,19 +5,6 @@ const db = require("../db/dbConfig");
  * @param {string} username - The username of the user to find.
  * @returns {Promise<object|null>} The user object if found, otherwise null.
  */
-// to test register route and get cookie
-const findAllUsers = async (username) => {
-  try {
-    const query = 'SELECT profile_pic, name, username, password, email, is_tutor, is_remote, subject, is_enrolled, is_booked FROM users;'
-
-    const user = await db.any(query, username)
-
-    return user
-  } catch (error) {
-    console.error('Error finding user by username:', error)
-    throw error
-  }
-}
 
 const findAllTutors = async () => {
   try {
@@ -71,39 +58,6 @@ const findStudentById = async (id) => {
     throw error;
   }
 };
-
-// probably need to add is_tutor (to frontend as well)
-// ---- original kept for reference ----
-// const createUser = async ({ username, password_hash, email }) => {
-//   const query = `
-//       INSERT INTO users (username, password_hash, email)
-//       VALUES ($1, $2, $3 )
-//       RETURNING id, username, email;
-//     `
-//   const newUser = await db.one(query, [username, password_hash, email])
-//   return newUser
-// }
-
-// create
-// const createUser = async ({ username, password_hash, email, is_tutor }) => {
-//   try {
-//     const query = `
-//       INSERT INTO users (username, password_hash, email, is_tutor)
-//       VALUES ($1, $2, $3, $4)
-//       RETURNING id, username, email, is_tutor; 
-//     `;
-//     const newUser = await db.one(query, [
-//       username,
-//       password_hash,
-//       email,
-//       is_tutor,
-//     ]);
-//     return newUser;
-//   } catch (error) {
-//     console.error("Error creating user:", error);
-//     throw error; // Rethrow the error to be handled at a higher level
-//   }
-// };
 
 const createUser = async ({ profile_pic, name, username, password_hash, email, is_tutor, is_remote, subject, is_enrolled, is_booked }) => {
   try {
@@ -164,7 +118,6 @@ const deleteUser = async (username) => {
 };
 
 module.exports = {
-  findAllUsers,
   findAllTutors,
   findUserByUsername,
   findTutorById,
