@@ -47,7 +47,7 @@ auth.post('/login', async (req, res) => {
 
 // Register routes
 auth.post('/register', async (req, res) => {
-  const { profile_pic, name, username, password, email, is_tutor, is_remote, subject, is_enrolled, is_booked } = req.body
+  const { profile_pic, name, username, password, email, is_tutor, is_remote, subject, description, is_enrolled, is_booked } = req.body
   try {
     // Check if user already exists
     const existingUser = await findUserByUsername(username)
@@ -68,6 +68,7 @@ auth.post('/register', async (req, res) => {
       email,
       is_tutor,
       is_remote,
+      description,
       subject,
       is_enrolled,
       is_booked
