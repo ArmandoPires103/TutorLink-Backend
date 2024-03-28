@@ -6,7 +6,6 @@ const { authenticateToken } = require('../middlewares/authenticateToken')
 const auth = express.Router();
 
 // Login route
-
 auth.post('/login', async (req, res) => {
   const { username, password } = req.body
 
@@ -46,25 +45,7 @@ auth.post('/login', async (req, res) => {
   }
 })
 
-/*
-CREATE TABLE users (
-    id SERIAL PRIMARY KEY,
-    is_tutor BOOLEAN,
-    profile_pic TEXT,
-    name VARCHAR(255) NOT NULL,
-    username VARCHAR(255) NOT NULL,
-    password_hash VARCHAR(255) NOT NULL,
-    email VARCHAR(255) UNIQUE,
-    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
-    is_enrolled BOOLEAN,
-    is_booked BOOLEAN,
-    subject VARCHAR(255),
-    description VARCHAR(255),
-    is_remote BOOLEAN
-);
-*/
-// Register route
+// Register routes
 auth.post('/register', async (req, res) => {
   const { profile_pic, name, username, password, email, is_tutor, is_remote, subject, is_enrolled, is_booked } = req.body
   try {
@@ -83,7 +64,7 @@ auth.post('/register', async (req, res) => {
       profile_pic,
       name,
       username,
-      passwordHash: hashedPassword,
+      password_hash: hashedPassword,
       email,
       is_tutor,
       is_remote,

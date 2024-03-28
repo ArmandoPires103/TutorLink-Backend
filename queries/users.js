@@ -5,18 +5,6 @@ const db = require("../db/dbConfig");
  * @param {string} username - The username of the user to find.
  * @returns {Promise<object|null>} The user object if found, otherwise null.
  */
-// const findAllUsers = async (username) => {
-//   try {
-//     const query = 'SELECT * FROM users;'
-
-//     const user = await db.any(query, username)
-
-//     return user
-//   } catch (error) {
-//     console.error('Error finding user by username:', error)
-//     throw error
-//   }
-// }
 
 const findAllTutors = async () => {
   try {
@@ -71,31 +59,15 @@ const findStudentById = async (id) => {
   }
 };
 
-// probably need to add is_tutor (to frontend as well)
-// ---- original kept for reference ----
-// const createUser = async ({ username, password_hash, email }) => {
-//   const query = `
-//       INSERT INTO users (username, password_hash, email)
-//       VALUES ($1, $2, $3 )
-//       RETURNING id, username, email;
-//     `
-//   const newUser = await db.one(query, [username, password_hash, email])
-//   return newUser
-// }
-
-// create
-const createUser = async ({ username, password_hash, email, is_tutor }) => {
+const createUser = async ({ profile_pic, name, username, password_hash, email, is_tutor, is_remote, subject, is_enrolled, is_booked }) => {
   try {
     const query = `
-      INSERT INTO users (username, password_hash, email, is_tutor)
-      VALUES ($1, $2, $3, $4)
-      RETURNING id, username, email, is_tutor; 
+      INSERT INTO users (profile_pic, name, username, password_hash, email, is_tutor, is_remote, subject, is_enrolled, is_booked)
+      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
+      RETURNING id, profile_pic, name, username, password_hash, email, is_tutor, is_remote, subject, is_enrolled, is_booked; 
     `;
     const newUser = await db.one(query, [
-      username,
-      password_hash,
-      email,
-      is_tutor,
+      profile_pic, name, username, password_hash, email, is_tutor, is_remote, subject, is_enrolled, is_booked
     ]);
     return newUser;
   } catch (error) {
