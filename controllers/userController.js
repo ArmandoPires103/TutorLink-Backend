@@ -10,7 +10,13 @@ const {
   deleteUser,
 } = require("../queries/users");
 const { authenticateToken } = require("../middlewares/authenticateToken");
-const { showStudentReviewBasedOnTutor, createStudentReview, updateStudentReview, deleteStudentReview } = require("../queries/studentreviews");
+const {
+  showStudentReviewBasedOnTutor,
+  createStudentReview,
+  updateStudentReview,
+  deleteStudentReview,
+  reviewBasedOnId,
+} = require("../queries/studentreviews");
 
 // --- Users: Tutors ---
 // show all tutors
@@ -76,8 +82,23 @@ user.get("/tutors/:tutor_id/reviews", async (req, res) => {
   }
 });
 
+user.get("/tutors/:tutor_id/reviews/:id", async (req, res) => {
+  try {
+    const { tutor_id, id } = req.params;
+    const review = await reviewBasedOnId(tutor_id, id);
+    if (review) {
+      res.status(200).json({ review });
+    } else {
+      res.status(404).json({ message: "Review not found" });
+    }
+  } catch (error) {
+    console.error("Error fetching review:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
 // create review as a student for selected tutor
-user.post("/tutors/:tutor_id/reviews", async (req, res) => {
+user.post("/tutors/:tutor_id/reviews", authenticateToken, async (req, res) => {
   const { tutor_id } = req.params;
   try {
     const tutorReview = await createStudentReview(...[req.body], tutor_id);
@@ -91,7 +112,11 @@ user.post("/tutors/:tutor_id/reviews", async (req, res) => {
 user.put("/tutors/:tutor_id/reviews/:id", async (req, res) => {
   const { tutor_id, id } = req.params;
   try {
-    const updatedTutorReview = await updateStudentReview(id, ...[req.body], tutor_id);
+    const updatedTutorReview = await updateStudentReview(
+      id,
+      ...[req.body],
+      tutor_id
+    );
     res.json({ tutorReview: updatedTutorReview });
   } catch (error) {
     res.status(500).json({ error: error.message });
