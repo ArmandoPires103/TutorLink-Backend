@@ -4,6 +4,7 @@ const requestsRouter = express.Router();
 const {
   getRequestsById,
   createRequestByStudent,
+  updateRequestById,
 } = require("../queries/requests");
 
 // renamed fx for clarity - we don't need a get all because this is particular to logged in tutor
@@ -28,6 +29,17 @@ requestsRouter.post("/:tutorId", async (req, res) => {
     res.status(201).json(createdRequest);
   } catch (error) {
     console.error("Error creating request:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
+requestsRouter.put("/:tutorId/request/:id", async (req, res) => {
+  const { tutorId, id } = req.params;
+  try {
+    const updatedRequest = await updateRequestById(tutorId, id);
+    res.json(updatedRequest);
+  } catch (error) {
+    console.error("Error updating request:", error);
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
