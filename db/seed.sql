@@ -82,10 +82,10 @@ VALUES
 -- Inserting a request where the tutor accepts
 INSERT INTO requests (user_id, tutor_id, accepted, created_at) 
 VALUES 
-    (13, 1, TRUE, NOW()),
+    (13, 1, FALSE, NOW()),
     (14, 2, TRUE, NOW()),
     (15, 3, TRUE, NOW()),
-    (16, 1, TRUE, NOW()),
+    (16, 1, FALSE, NOW()),
     (17, 1, TRUE, NOW()),
     (18, 1, TRUE, NOW()),
     (19, 1, TRUE, NOW()),
