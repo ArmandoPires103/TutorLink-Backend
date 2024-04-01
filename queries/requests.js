@@ -51,7 +51,7 @@ const createRequestByStudent = async (tutorId, userId) => {
 const updateRequestById = async (tutorId, requestId) => {
   try {
     const updatedRequest = await db.one(
-      "UPDATE requests SET accepted = false WHERE id = $1 AND tutor_id = $2 RETURNING *",
+      "UPDATE requests SET accepted = true WHERE id = $1 AND tutor_id = $2 RETURNING *",
       [requestId, tutorId]
     );
     console.log("Updated Request:", updatedRequest);
