@@ -83,20 +83,20 @@ VALUES
 INSERT INTO requests (user_id, tutor_id, accepted, created_at) 
 VALUES 
     (13, 1, FALSE, NOW()),
-    (14, 2, TRUE, NOW()),
+    (14, 2, FALSE, NOW()),
     (15, 3, TRUE, NOW()),
     (16, 1, FALSE, NOW()),
-    (17, 1, TRUE, NOW()),
-    (18, 1, TRUE, NOW()),
-    (19, 1, TRUE, NOW()),
-    (20, 1, TRUE, NOW()),
-    (21, 1, TRUE, NOW()),
-    (22, 1, TRUE, NOW()),
-    (23, 1, TRUE, NOW()),
-    (24, 1, TRUE, NOW()),
-    (25, 1, TRUE, NOW()),
-    (26, 1, TRUE, NOW()),
-    (27, 1, TRUE, NOW())
+    (17, 1, FALSE, NOW()),
+    (18, 1, FALSE, NOW()),
+    (19, 1, FALSE, NOW()),
+    (20, 1, FALSE, NOW()),
+    (21, 1, FALSE, NOW()),
+    (22, 1, FALSE, NOW()),
+    (23, 1, FALSE, NOW()),
+    (24, 1, FALSE, NOW()),
+    (25, 1, FALSE, NOW()),
+    (26, 1, FALSE, NOW()),
+    (27, 1, FALSE, NOW())
 ;
 
 -- Inserting a review for a student

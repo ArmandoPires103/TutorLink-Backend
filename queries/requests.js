@@ -62,4 +62,19 @@ const updateRequestById = async (tutorId, requestId) => {
   }
 };
 
-module.exports = { getRequestsById, createRequestByStudent, updateRequestById };
+const deleteRequestById = async (tutorId, requestId) => {
+  try {
+    const deletedRequest = await db.one(
+      "DELETE FROM requests WHERE id = $1 AND tutor_id = $2 RETURNING *",
+      [requestId, tutorId]
+    );
+    console.log("Deleted Request:", deletedRequest);
+    return deletedRequest;
+  } catch (error) {
+    console.error("Error deleting request:", error);
+    throw error;
+  }
+};
+
+
+module.exports = { getRequestsById, createRequestByStudent, updateRequestById, deleteRequestById };
