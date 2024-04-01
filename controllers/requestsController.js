@@ -5,6 +5,7 @@ const {
   getRequestsById,
   createRequestByStudent,
   updateRequestById,
+  deleteRequestById,
 } = require("../queries/requests");
 
 // renamed fx for clarity - we don't need a get all because this is particular to logged in tutor
@@ -43,5 +44,17 @@ requestsRouter.put("/:tutorId/request/:id", async (req, res) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
+
+requestsRouter.delete("/:tutorId/request/:id", async (req, res) => {
+  const { tutorId, id } = req.params;
+  try {
+    const deletedRequest = await deleteRequestById(tutorId, id);
+    res.json(deletedRequest);
+  } catch (error) {
+    console.error("Error deleting request:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
 
 module.exports = requestsRouter;
